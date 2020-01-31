@@ -3,29 +3,17 @@
 #include <limits.h>
 #include <pthread.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 
 int global_variable = 0;
 pthread_mutex_t lock;
 
 
-int is_prime(int n) {
-	for(int i = 2 ; i <= n/2 ; i++) {
-		if(n%i!=0)
-			continue;
-		else
-			return 1;
-	}
-	return 0;;
-}
-
 void func() {
   pthread_mutex_lock(&lock);
-  global_variable++;
-  printf("Start func\t[%d]\n", global_variable);
-  for(int i = 0 ; i < 100000 ; i++) {
-    is_prime(i);
-  }
+  printf("Start func\t[%d]\n", ++global_variable);
+  sleep(1); 
   printf("End func\t[%d]\n", global_variable);
   pthread_mutex_unlock(&lock);
 }
